@@ -2,12 +2,12 @@ package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
+import java.io.IOException;     
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Simple brute force implementation
+ * Simple brute force implementation >> Remove/change, confusing comment qui veut rien dire!
  *
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
@@ -15,9 +15,10 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	private String filepath;
 	
 	/**
+     * @param filepath a full or partial path to file with symptom strings in it, one per line
 	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
+     */
+
 	public ReadSymptomDataFromFile (String filepath) {
 		this.filepath = filepath;
 	}
@@ -35,10 +36,12 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 					result.add(line);
 					line = reader.readLine();
 				}
-				reader.close();
+				
+                reader.close();
+                
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+            }
 		}
 		
 		return result;

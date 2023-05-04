@@ -3,8 +3,105 @@ package com.hemebiotech.analytics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class AnalyticsCounter {
+	
+	public static void main(String args[]) throws Exception{
+        
+        //ReadSymptomDataFromFile implementation
+        List<String> symptomsList = new ArrayList<>();
+
+		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
+        String line = reader.readLine();
+
+        while (line != null) {
+            symptomsList.add(line);
+            line = reader.readLine();
+        }
+
+        reader.close();
+
+        Map<String, Integer> symptomCount = countSymptoms(symptomsList);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter("result.out", false));
+                
+        //For each entry in the Map, I write it on a new line into our file
+        for(Map.Entry<String, Integer> entry: symptomCount.entrySet()) {
+            writer.write(entry.getKey() + ": " + entry.getValue());
+            writer.newLine();
+        }
+
+        writer.close();
+
+        // //writeSymptomsDataToFile implementation
+        // Map<String, Integer> symptomCount = countSymptoms(symptomsList);
+		// for(Map.Entry<String, Integer> entry: symptomCount.entrySet()) {
+        //     System.out.println("Symptom: "+ entry.getKey()+" appears: "+ entry.getValue());
+        // }
+	}
+
+//Count the symptoms implementation
+public static Map<String, Integer> countSymptoms (List<String> symptomsList){
+
+    Map<String, Integer> symptomCount = new HashMap<>();
+
+    for (String symptom : symptomsList){
+        if (symptomCount.get(symptom) == null){
+            symptomCount.put(symptom,1);
+        }else{
+            int symptomCounter = symptomCount.get(symptom);
+            symptomCounter ++;
+            symptomCount.put(symptom, symptomCounter);
+        }
+    }
+    return symptomCount;
+}
+
+	// private static int headacheCount = 0;
+	// private static int rashCount = 0;
+	// private static int pupilCount = 0;
+	
+	// public static void main(String args[]) throws Exception{
+
+	// 	BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
+		
+    //     String line = reader.readLine();
+
+    //     while (line != null) {
+    //         if (line.equals("headache")) {
+    //             headacheCount++;
+    //         }
+    //         else if (line.equals("rash")) {
+    //             rashCount++;
+    //         }
+    //         else if (line.contains("pupils")) {
+    //             pupilCount++;
+    //         }
+
+    //         line = reader.readLine();
+    //     }
+
+    //     reader.close();
+
+    //     System.out.println("Total number of headaches: " + headacheCount);
+    //     System.out.println("Total number of rashes: " + rashCount);
+    //     System.out.println("Total number of dilated pupils: " + pupilCount);
+		
+	// 	// next generate output
+	// 	FileWriter writer = new FileWriter ("result.out");
+	// 	writer.write("headache: " + headacheCount + "\n");
+	// 	writer.write("rash: " + rashCount + "\n");
+	// 	writer.write("dialated pupils: " + pupilCount + "\n");
+	// 	writer.close();
+	// }
+
+	/**
 	private static int headacheCount = 0;
 	private static int rashCount = 0;
 	private static int pupilCount = 0;
@@ -23,7 +120,7 @@ public class AnalyticsCounter {
 				headCount++;
 				System.out.println("number of headaches: " + headCount);
 			}
-			else if (line.equals("rush")) {
+			else if (line.equals("rash")) {
 				rashCount++;
 			}
 			else if (line.contains("pupils")) {
@@ -40,4 +137,5 @@ public class AnalyticsCounter {
 		writer.write("dialated pupils: " + pupilCount + "\n");
 		writer.close();
 	}
+	*/
 }
