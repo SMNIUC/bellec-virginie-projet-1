@@ -6,35 +6,36 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-public class WriteSymptomDataToFile implements ISymptomWriter{
+/**
+ * Writes each unique symptom and its number of occurences onto a file.
+ *
+ * @param filepath a full or partial path to file in which symptoms will be written, one per line.
+ * @param symptoms an alphabetically ordered Map that pairs each unique symptom with 
+ *      its number of occurences.
+ */
 
-    private final String FILEPATH = "result.out";
+public class WriteSymptomDataToFile implements ISymptomWriter {
 
-    /**
-     * @param filepath a full or partial path to file in which symptoms will be written, 
-     * one per line
-	 * 
-     */
+  private final String filePath = "result.out";
 
+  @Override
+  public void writeSymptoms(Map<String, Integer> symptoms) {
 
-    @Override
-    public void writeSymptoms(Map<String, Integer> symptoms){
+    try {
 
-        try{
+      BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false));
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter("result.out", false));
+      for (Map.Entry<String, Integer> entry: symptoms.entrySet()) {
 
-            for(Map.Entry<String, Integer> entry: symptoms.entrySet()) {
+        writer.write(entry.getKey() + " : " + entry.getValue());
+        writer.newLine();
+        
+      }
 
-                writer.write(entry.getKey() + " : " + entry.getValue());
-                writer.newLine();
-                
-            }
+      writer.close();
 
-        writer.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 }
